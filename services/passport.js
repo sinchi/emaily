@@ -14,13 +14,13 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-require('./facebook')(passport, keys, 
+/*require('./facebook')(passport, keys, 
     (accessToken, refreshToken, profile, cb) => {
         console.log('Access Token : ' + accessToken);
         console.log('Refresh Token : ' + refreshToken);
         console.log(profile);
     }
-);
+);*/
 
 require('./google')(passport, keys, 
     (accessToken, refreshToken, profile, done) => {
