@@ -17,5 +17,10 @@ app.use(passport.session());
 
 mongoose.connect(keys.mongoURL, {useNewUrlParser: true});
 require('./routes/authRoute')(app);
+
+app.get("/api/test", (req, res) => {
+    res.send({msg: 'Hello Heroku' });
+})
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

@@ -15,4 +15,5 @@ module.exports = (app) => {
         req.logout();
         res.send(req.user);
     });
+
 }
