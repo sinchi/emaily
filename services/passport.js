@@ -23,12 +23,30 @@ passport.deserializeUser((id, done) => {
 );*/
 
 require('./google')(passport, keys, 
-   async (accessToken, refreshToken, profile, done) => {
-       const existingUser = await User.findOne({ googleId: profile.id });
+    (accessToken, refreshToken, profile, done) => {
+        User.findOne({ googleId: profile.id }, (err, user) => {
+            if(!err) {
+                if(!user) {
+                    new User({ googleId: profile.id, name: profile.displayName }).save()
+                    .then(newUser => {
+                        done(null, newUser);
+                    });                    
+                } else {
+                    console.log('User is already exist: ' + user);
+                    done(null, user);
+                }
+            } else {
+                console.log('Error ' + err);
+                done(err, null);
+            }
+        });        
+    }
+);
+
+
+ /* const existingUser = await User.findOne({ googleId: profile.id });
        if(existingUser) {
           return done(null, existingUser);
        }
        const newUser = await new User({ googleId: profile.id, name: profile.displayName }).save();
-       done(null, newUser);                
-    }
-);
+       done(null, newUser);*/
